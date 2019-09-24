@@ -2,7 +2,7 @@
 
 # 24.09.2019: Successfully tried and tested on Ubuntu 18.04.
 
-# This script installs docker engine with user permissions, docker-compose and git.
+# This script installs docker engine with user permissions and docker-compose.
 
 # Install docker engine:
 # Uninstall docker
@@ -34,12 +34,10 @@ sudo docker run hello-world
 
 # Add user to docker group
 sudo usermod -aG docker $USER
-# Activate changes
-newgrp docker
 
 # Install docker compose
 sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
-# Install git
-sudo apt install git 
+# Activate permission changes
+newgrp docker
