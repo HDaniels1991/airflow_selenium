@@ -16,6 +16,7 @@ services:
         #     - ./pgdata:/var/lib/postgresql/data/pgdata
 
     webserver:
+        image: docker_airflow:latest
         restart: always
         depends_on:
             - postgres
