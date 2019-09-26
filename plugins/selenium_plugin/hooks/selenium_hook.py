@@ -37,7 +37,8 @@ class SeleniumHook(BaseHook):
         self.container = container
         cli = docker.APIClient()
         self.container_ip = cli.inspect_container(
-            container.id)['NetworkSettings']['IPAddress']
+            container.id)['NetworkSettings'][
+                'Networks']['container_bridge']['IPAddress']
 
     def create_driver(self):
         '''
