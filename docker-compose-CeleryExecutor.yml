@@ -91,4 +91,14 @@ services:
             # - POSTGRES_PASSWORD=airflow
             # - POSTGRES_DB=airflow
             # - REDIS_PASSWORD=redispass
+        networks:
+            - default  
+            - container_bridge
         command: worker
+
+networks:
+   default:
+
+   container_bridge:
+      external:
+        name: container_bridge
