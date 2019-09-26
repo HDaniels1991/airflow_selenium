@@ -15,7 +15,8 @@ class SeleniumHook(BaseHook):
     browser by sending commands to the remote server.
     '''
     def __init__(self):
-        print('Initialised Hook')
+        print('initialised hook')
+        pass
 
     def create_container(self):
         '''
