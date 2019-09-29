@@ -31,7 +31,7 @@ class SeleniumHook(BaseHook):
         client = docker.from_env()
         container = client.containers.run('selenium/standalone-chrome',
                                           volumes=volumes,
-                                          ports={'4444/tcp': 4444},  # local
+                                          #ports={'4444/tcp': 4444},  # local
                                           network='container_bridge',
                                           detach=True)
         self.container = container
@@ -48,7 +48,7 @@ class SeleniumHook(BaseHook):
         options.add_argument("--headless")
         options.add_argument("--window-size=1920x1080")
         chrome_driver = '{}:4444/wd/hub'.format(self.container_ip)
-        chrome_driver = '{}:4444/wd/hub'.format('http://127.0.0.1')  # local
+        #chrome_driver = '{}:4444/wd/hub'.format('http://127.0.0.1')  # local
         # wait for remote, unless timeout.
         while True:
             try:
@@ -72,8 +72,8 @@ class SeleniumHook(BaseHook):
 
     def run_script(self, script, args):
         '''
-        This is a wrapper around python scripts which sends commands to
-        the docker container. The script must use the variable driver.
+        This is a wrapper around the python script which sends commands to
+        the docker container. The first variable of the script must be the web driver.
         '''
         script(self.driver, *args)
 
