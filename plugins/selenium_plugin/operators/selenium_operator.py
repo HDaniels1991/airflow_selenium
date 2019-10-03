@@ -1,13 +1,14 @@
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 from selenium_plugin.hooks.selenium_hook import SeleniumHook
-from datetime import datetime
 
 
 class SeleniumOperator(BaseOperator):
     '''
     Selenium Operator
     '''
+    template_fields = ['script_args']
+
     @apply_defaults
     def __init__(self,
                  script,
@@ -17,7 +18,6 @@ class SeleniumOperator(BaseOperator):
         super().__init__(*args, **kwargs)
         self.script = script
         self.script_args = script_args
-
 
     def execute(self, context):
         #  yesterday = context.get('yesterday_ds')
