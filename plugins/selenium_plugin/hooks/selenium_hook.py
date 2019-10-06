@@ -15,13 +15,14 @@ class SeleniumHook(BaseHook):
     browser by sending commands to the remote server.
     '''
     def __init__(self):
-        print('initialised hook')
+        logging.info('initialised hook')
         pass
 
     def create_container(self):
         '''
         Creates the selenium docker container
         '''
+        logging.info('creating_container')
         cwd = os.getcwd()
         self.local_downloads = os.path.join(cwd, 'downloads')
         self.sel_downloads = '/home/seluser/downloads'
@@ -44,6 +45,7 @@ class SeleniumHook(BaseHook):
         '''
         creates and configure the remote Selenium webdriver.
         '''
+        logging.info('creating driver')
         options = Options()
         options.add_argument("--headless")
         options.add_argument("--window-size=1920x1080")
