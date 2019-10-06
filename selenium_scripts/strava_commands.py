@@ -6,14 +6,15 @@ import bs4
 
 class Strava:
     '''
-    The strava class provides a series of methods for interacting with Strava using the Selenium web driver.
+    The strava class provides a series of methods for interacting with Strava
+    using the Selenium web driver.
     '''
     def __init__(self, driver, email, password):
         self.base_url = 'https://www.strava.com'
         self.driver = driver
         self.email = email
         self.password = password
-    
+
     def login(self):
         '''
         Logs into Strava via Facebook

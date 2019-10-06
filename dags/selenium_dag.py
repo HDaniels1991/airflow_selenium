@@ -13,7 +13,7 @@ default_args = {
     'retries_delay': timedelta(minutes=5)
     }
 
-dag = DAG('imap_example_dag',
+dag = DAG('selenium_example_dag',
           schedule_interval='@daily',
           default_args=default_args)
 
