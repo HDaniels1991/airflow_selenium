@@ -1,7 +1,7 @@
 from airflow.models import DAG
 from airflow.operators.selenium_plugin import SeleniumOperator
 from airflow.operators.dummy_operator import DummyOperator
-from selenium_scripts import strava_commands
+from selenium_scripts.strava_commands import race_gpx
 from datetime import datetime, timedelta
 
 default_args = {
@@ -22,8 +22,8 @@ start = DummyOperator(
     dag=dag)
 
 get_tdf_gpx = SeleniumOperator(
-    script='',
-    script_args='',
+    script=race_gpx,
+    script_args=[],
     task_id='get_tdf_gpx',
     dag=dag
 )
@@ -31,3 +31,6 @@ get_tdf_gpx = SeleniumOperator(
 end = DummyOperator(
     task_id='end',
     dag=dag)
+
+start >> get_tdf_gpx
+get_tdf_gpx >> end
