@@ -12,8 +12,8 @@ date = '{{ ds }}'
 default_args = {
     'owner': 'harry_daniels',
     'wait_for_downstream': True,
-    'start_date': datetime(2019, 7, 6),
-    'end_date': datetime(2019, 7, 28),
+    'start_date': datetime(2019, 7, 7),
+    'end_date': datetime(2019, 7, 29),
     'retries': 3,
     'retries_delay': timedelta(minutes=5)
     }
