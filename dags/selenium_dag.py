@@ -1,14 +1,19 @@
+import json
 from airflow.models import DAG
 from airflow.operators.selenium_plugin import SeleniumOperator
 from airflow.operators.dummy_operator import DummyOperator
+from airflow.models import Variable
 from selenium_scripts.strava_commands import race_gpx
 from datetime import datetime, timedelta
+
+strava_vars = json.loads(Variable.get('strava_variables_config'))
+date = '{{ ds }}'
 
 default_args = {
     'owner': 'harry_daniels',
     'wait_for_downstream': True,
-    'start_date': datetime(2019, 7, 3),
-    'end_date': datetime(2019, 7, 4),
+    'start_date': datetime(2019, 7, 6),
+    'end_date': datetime(2019, 7, 28),
     'retries': 3,
     'retries_delay': timedelta(minutes=5)
     }
@@ -23,7 +28,10 @@ start = DummyOperator(
 
 get_tdf_gpx = SeleniumOperator(
     script=race_gpx,
-    script_args=[],
+    script_args=[strava_vars['email'],
+                 strava_vars['password'],
+                 strava_vars['url'],
+                 date, strava_vars['download_folder']],
     task_id='get_tdf_gpx',
     dag=dag
 )
