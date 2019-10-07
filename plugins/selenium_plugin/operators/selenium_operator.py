@@ -20,7 +20,6 @@ class SeleniumOperator(BaseOperator):
         self.script_args = script_args
 
     def execute(self, context):
-        #  yesterday = context.get('yesterday_ds')
         hook = SeleniumHook()
         hook.create_container()
         hook.create_driver()

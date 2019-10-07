@@ -1,21 +1,30 @@
 
 # Selenium on Airflow
 
-This repo demonstrates how to use the Selenium web driver, to automate a daily task on the web, in a Dockerized airflow environment. 
+This repo demonstrates how to use the Selenium web driver, to automate a daily task on the web, in a Dockerized airflow environment. The environment used for this project was Ubuntu 18.04 on AWS EC2.
 
 ## Setting up the Airflow environment
 
-1. Spin up EC2:
-	Distro: Ubuntu.
-	Security Settings: Which ports.
-2. Install Docker engine.
-	Install git
-	Install pip
-3. Change Docker permissions?
-3. Git pull.
-4. Build dockerfile.
-	Grant permissions, this extends puckel/docker-airflow image and grants the airflow user to the docker sock.
-5. Run docker-compose.
+Set up an environment and ensure that ports 22 and 8080 are open. 
+
+Clone the repo:
+* git clone https://github.com/HDaniels1991/airflow_selenium.git
+
+Run the setup script, this will install docker engine:
+* bash setup.sh
+
+Create the required Docker network and pull the selenium image.
+* docker network create container_bridge
+* docker pull selenium/standalone-chrome
+
+Create the Docker image:
+* docker build . -it docker_airflow
+
+Run the docker compose:
+* docker-compose -f docker-compose-CeleryExecutor.yml
+
+The Airflow webserver will be available at the following location:
+* {Public DNS}:8080
 
 ## The Selenium Plugin
 
@@ -26,6 +35,8 @@ The Selenium Airflow plugin works by setting up a remote Selenium server on the 
 3. Execute Python code.
 4. Check Execution.
 5. Remove container.
+
+# WIP: Facebook blocks logins via Selenium. Searching for a new use case.
 
 ## Example: Scraping Tour De France GPX files from Strava
 
