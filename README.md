@@ -36,20 +36,13 @@ The Selenium Airflow plugin works by setting up a remote Selenium server on the 
 4. Check Execution.
 5. Remove container.
 
-# WIP: Facebook blocks logins via Selenium. Searching for a new use case.
-
-## Example: Scraping Tour De France GPX files from Strava
-
-**Disclaimer** It explicitly states in the Strava terms and conditions that you cannot distribute or disclose any part of the Strava services using automated "scraping" and using an automated system, including "robots" to access the services in a manner that sends more request messages to Strava than humanily possible is prohibitted. The use case here is to provide a reproducable example task for the Selenium plugin.
+## Example Dag: Using Selenium to download a podcast each weekday and email it to an end user.
 
 ### Objective:
 
-For a 'hypothetical' visualisation project, I wanted to download from Strava, the GPX routes for each stage of the 2019 Tour de France, each day. The routes become publically available after the Pro riders upload their ride and can be downloaded from the UI.  
+The Dag is designed to download a daily podcast from the BBC called wake up to money and email it to the end user.  
 
-1. You will need a Strava login.
-2. Login via Facebook.
-3. Find a pro-rider.
-4. Download the race for a specific execution date.
+A local example of the selenium script can be found in the selenium_on_docker.ipynb file.
 
 ## Author:
 
