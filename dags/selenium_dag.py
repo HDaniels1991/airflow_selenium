@@ -1,4 +1,5 @@
 import json
+import os
 from airflow.models import DAG
 from airflow.operators.selenium_plugin import SeleniumOperator
 from airflow.operators.dummy_operator import DummyOperator
@@ -7,6 +8,7 @@ from selenium_scripts.wake_up_to_money import download_podcast
 from datetime import datetime, timedelta
 
 date = '{{ ds_nodash }}'
+cwd = os.getcwd()
 local_downloads = '{}/downloads'.format(cwd)
 
 default_args = {
