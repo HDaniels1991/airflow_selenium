@@ -6,6 +6,8 @@ from airflow.models import Variable
 from selenium_scripts.wake_up_to_money import download_podcast
 from datetime import datetime, timedelta
 
+date = '{{ ds_nodash }}'
+local_downloads = '{}/downloads'.format(cwd)
 
 default_args = {
     'owner': 'harry_daniels',
@@ -26,7 +28,9 @@ start = DummyOperator(
 
 get_podcast = SeleniumOperator(
     script=download_podcast,
-    script_args=['https://www.bbc.co.uk/programmes/b0070lr5/episodes/downloads'],
+    script_args=['https://www.bbc.co.uk/programmes/b0070lr5/episodes/downloads',
+                 local_downloads,
+                 date],
     task_id='get_podcast',
     dag=dag
 )
