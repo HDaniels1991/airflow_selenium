@@ -3,17 +3,15 @@ from airflow.models import DAG
 from airflow.operators.selenium_plugin import SeleniumOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.models import Variable
-from selenium_scripts.strava_commands import race_gpx
+from selenium_scripts.wake_up_to_money import download_podcast
 from datetime import datetime, timedelta
 
-strava_vars = json.loads(Variable.get('strava_variables_config'))
-date = '{{ ds }}'
 
 default_args = {
     'owner': 'harry_daniels',
     'wait_for_downstream': True,
-    'start_date': datetime(2019, 7, 7),
-    'end_date': datetime(2019, 7, 29),
+    'start_date': datetime(2019, 10, 8),
+    'end_date': datetime(2019, 10, 20),
     'retries': 3,
     'retries_delay': timedelta(minutes=5)
     }
@@ -26,13 +24,10 @@ start = DummyOperator(
     task_id='start',
     dag=dag)
 
-get_tdf_gpx = SeleniumOperator(
-    script=race_gpx,
-    script_args=[strava_vars['email'],
-                 strava_vars['password'],
-                 strava_vars['url'],
-                 date, strava_vars['download_folder']],
-    task_id='get_tdf_gpx',
+get_podcast = SeleniumOperator(
+    script=download_podcast,
+    script_args=['https://www.bbc.co.uk/programmes/b0070lr5/episodes/downloads'],
+    task_id='get_podcast',
     dag=dag
 )
 
@@ -40,5 +35,5 @@ end = DummyOperator(
     task_id='end',
     dag=dag)
 
-start >> get_tdf_gpx
-get_tdf_gpx >> end
+start >> get_podcast
+get_podcast >> end
