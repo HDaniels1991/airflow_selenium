@@ -12,23 +12,20 @@ def download_podcast(driver, url, download_dir, date):
     download_link = 'http:' + download_link
     driver.get(download_link)
     # check for downloads
+    print('Testing for file')
+    time0 = time.time()
     while True:
-        print('Testing for file')
-        time_0 = time.time()
         files = os.listdir(download_dir)
         if files:
             file = files[0]
-            print(file)
             if date in file:
-                print('file successfully downloaded to {}'.format(
-                      os.path.join(download_dir, file)))
+                print('File downloaded to {}'.format(
+                    os.path.join(download_dir, file)
+                ))
                 break
             else:
-                print('file not found.')
-                print('sleeping for 5 and searching again.')
+                print('file not found, sleeping for 5 seconds')
                 time.sleep(5)
-        elif time.time() - time_0 > 60:
+        elif time.time() - time0 > 60:
             print('download timed out.')
             break
-
-        

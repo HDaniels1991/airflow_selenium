@@ -98,16 +98,16 @@ def race_gpx(driver, email, password, url, date, download_folder):
     
     time0 = time.time()
     while True:
-            if [x for x in [strava.get_date(x) for x in feed] if '2019-07' in x]:
-                break
-            elif time.time() - time0 > 60:
-                print('Query timed-out')
-                break
-            else:
-                print('Site not rendered correctly, trying again in 5 seconds')
-                time.sleep(5)
-                feed = strava.get_activity_feed(url)
-    
+        if [x for x in [strava.get_date(x) for x in feed] if '2019-07' in x]:
+            break
+        elif time.time() - time0 > 60:
+            print('Query timed-out')
+            break
+        else:
+            print('Site not rendered correctly, trying again in 5 seconds')
+            time.sleep(5)
+            feed = strava.get_activity_feed(url)
+
     # Get activity
     activity_link = strava.get_activity(date, feed)
 
