@@ -19,9 +19,10 @@ def download_podcast(driver, url, download_dir, date):
         if files:
             file = files[0]
             if date in file:
-                print('File downloaded to {}'.format(
+                print('File downloading to {}'.format(
                     os.path.join(download_dir, file)
                 ))
+                time.sleep(30)
                 break
             else:
                 print('file not found, sleeping for 5 seconds')
