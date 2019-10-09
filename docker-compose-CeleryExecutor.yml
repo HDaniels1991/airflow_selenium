@@ -35,6 +35,8 @@ services:
             - ./plugins:/usr/local/airflow/plugins
             # Selenium scripts 
             - ./selenium_scripts:/usr/local/airflow/selenium_scripts
+            # Selenium downloads
+            - downloads:/usr/local/airflow/downloads
         ports:
             - "8080:8080"
         command: webserver
@@ -67,6 +69,8 @@ services:
             - ./plugins:/usr/local/airflow/plugins
             # Selenium scripts 
             - ./selenium_scripts:/usr/local/airflow/selenium_scripts
+            # Selenium downloads
+            - downloads:/usr/local/airflow/downloads
         environment:
             - LOAD_EX=n
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
@@ -90,7 +94,8 @@ services:
             - ./plugins:/usr/local/airflow/plugins
             # Selenium scripts 
             - ./selenium_scripts:/usr/local/airflow/selenium_scripts
-            - ./downloads:/usr/local/airflow/downloads
+            # Selenium downloads
+            - downloads:/usr/local/airflow/downloads
         environment:
             - FERNET_KEY=46BKJoQYlPPOexq0OhDZnIlNepKFf87WFwLbfzqDDho=
             - EXECUTOR=Celery
@@ -109,3 +114,6 @@ networks:
    container_bridge:
       external:
         name: container_bridge
+
+volumes:
+   downloads:

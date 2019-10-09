@@ -23,17 +23,14 @@ class SeleniumHook(BaseHook):
         Creates the selenium docker container
         '''
         logging.info('creating_container')
-        cwd = os.getcwd()
-        self.local_downloads = os.path.join(cwd, 'downloads')
-        # self.local_downloads = 'downloads' # test local volume
+        self.downloads = 'downloads' # test named volume
         self.sel_downloads = '/home/seluser/downloads'
-        volumes = ['{}:{}'.format(self.local_downloads,
+        volumes = ['{}:{}'.format(self.downloads,
                                   self.sel_downloads),
                    '/dev/shm:/dev/shm']
         client = docker.from_env()
         container = client.containers.run('docker_selenium:latest',
                                           volumes=volumes,
-                                          #ports={'4444/tcp': 4444},  # local
                                           network='container_bridge',
                                           detach=True)
         self.container = container
@@ -51,8 +48,6 @@ class SeleniumHook(BaseHook):
         options.add_argument("--headless")
         options.add_argument("--window-size=1920x1080")
         chrome_driver = '{}:4444/wd/hub'.format(self.container_ip)
-        #chrome_driver = '{}:4444/wd/hub'.format('http://127.0.0.1')  # local
-        # wait for remote, unless timeout.
         while True:
             try:
                 driver = webdriver.Remote(
