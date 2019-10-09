@@ -13,6 +13,7 @@ def download_podcast(driver, url, download_dir, date):
     driver.get(download_link)
     # check for downloads
     while True:
+        print('Testing for file')
         time_0 = time.time()
         files = os.listdir(download_dir)
         if files:
