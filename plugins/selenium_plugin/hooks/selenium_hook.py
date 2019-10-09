@@ -25,7 +25,6 @@ class SeleniumHook(BaseHook):
         logging.info('creating_container')
         cwd = os.getcwd()
         self.local_downloads = os.path.join(cwd, 'downloads')
-        self.local_downloads = 'downloads'
         self.sel_downloads = '/home/seluser/downloads'
         volumes = ['{}:{}'.format(self.local_downloads,
                                   self.sel_downloads),

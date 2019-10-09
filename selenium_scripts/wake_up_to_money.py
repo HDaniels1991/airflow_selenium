@@ -12,19 +12,21 @@ def download_podcast(driver, url, download_dir, date):
     download_link = 'http:' + download_link
     driver.get(download_link)
     # check for downloads
-    file = 'WakeUpToMoney-{}.mp3'.format(date)
-    downloaded_file = os.path.join(download_dir, file)
     while True:
         time_0 = time.time()
-        if os.path.isfile(downloaded_file):
-            print('file successfully downloded to {}'.format(downloaded_file))
-            break
+        files = os.listdir(download_dir)
+        if files:
+            file = files[0]
+            if date in file:
+                print('file successfully downloded to {}'.format(
+                      os.path.join(download_dir, file)))
+                break
+            else:
+                print('file not found.')
+                print('sleeping for 5 and searching again.')
+                time.sleep(5)
         elif time.time() - time_0 > 60:
             print('download timed out.')
             break
-        else:
-            print('file not found. {} does not exist.'.format(downloaded_file))
-            print('sleeping for 5 and searching again.')
-            time.sleep(5)
 
         
