@@ -31,7 +31,7 @@ class SeleniumHook(BaseHook):
                                   self.sel_downloads),
                    '/dev/shm:/dev/shm']
         client = docker.from_env()
-        container = client.containers.run('selenium/standalone-chrome',
+        container = client.containers.run('docker_selenium:latest',
                                           volumes=volumes,
                                           #ports={'4444/tcp': 4444},  # local
                                           network='container_bridge',
