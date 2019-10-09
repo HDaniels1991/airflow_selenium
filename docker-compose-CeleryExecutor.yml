@@ -117,3 +117,4 @@ networks:
 
 volumes:
    downloads:
+      external: true
