@@ -16,4 +16,4 @@ RUN groupadd --gid 999 docker \
    && usermod -aG docker airflow 
 USER airflow
 
-
+RUN mkdir downloads
