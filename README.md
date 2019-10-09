@@ -13,12 +13,14 @@ Clone the repo:
 Run the setup script, this will install docker engine:
 * bash setup.sh
 
-Create the required Docker network and pull the selenium image.
+Create the required Docker network to enable the containers to communicate.
 * docker network create container_bridge
-* docker pull selenium/standalone-chrome
 
-Create the Docker image:
-* docker build . -it docker_airflow
+Extend the Selenium image to grant the Selenium user write permissions on the container used for downloads. This will be used as a mounted volume later.
+* docker build -t docker_selenium -f Dockerfile-selenium .
+
+Create the Airflow docker image:
+* docker build . -t docker_airflow
 
 Run the docker compose:
 * docker-compose -f docker-compose-CeleryExecutor.yml
