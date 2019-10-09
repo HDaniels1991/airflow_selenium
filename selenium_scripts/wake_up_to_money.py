@@ -17,8 +17,9 @@ def download_podcast(driver, url, download_dir, date):
         files = os.listdir(download_dir)
         if files:
             file = files[0]
+            print(file)
             if date in file:
-                print('file successfully downloded to {}'.format(
+                print('file successfully downloaded to {}'.format(
                       os.path.join(download_dir, file)))
                 break
             else:
