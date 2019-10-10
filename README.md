@@ -7,23 +7,42 @@ This repo demonstrates how to use the Selenium web driver, to automate a daily t
 
 Set up an environment and ensure that ports 22 and 8080 are open. 
 
-Clone the repo:
-* git clone https://github.com/HDaniels1991/airflow_selenium.git
+ssh into the environment:
 
-Run the setup script, this will install docker engine:
-* bash setup.sh
+Clone the repo:
+```
+git clone https://github.com/HDaniels1991/airflow_selenium.git
+```
+
+Run the setup script, this will install docker engine and compose:
+```
+bash setup.sh
+```
 
 Create the required Docker network to enable the containers to communicate.
-* docker network create container_bridge
+```
+docker network create container_bridge
+```
 
-Extend the Selenium image to grant the Selenium user write permissions on the container used for downloads. This will be used as a mounted volume later.
-* docker build -t docker_selenium -f Dockerfile-selenium .
+Create the named volume used to persist downloaded files.
+```
+docker volume create downloads
+```
 
-Create the Airflow docker image:
-* docker build . -t docker_airflow
+Extend the Selenium image to grant the Selenium user write permissions on the folder used for downloads.
+```
+docker build -t docker_selenium -f Dockerfile-selenium .
+```
+
+Extend the Airflow image to grant the container access to the host docker socket, install the requirements and create the downloads folder. The {AIRFLOW_USER_HOME} directory is also added to th python path to enable custom python modules.
+```
+docker build -t docker_airflow -f Dockerfile-airflow .
+```
 
 Run the docker compose:
-* docker-compose -f docker-compose-CeleryExecutor.yml
+```
+docker-compose up
+```
 
 The Airflow webserver will be available at the following location:
 * {Public DNS}:8080
@@ -38,13 +57,11 @@ The Selenium Airflow plugin works by setting up a remote Selenium server on the 
 4. Check Execution.
 5. Remove container.
 
-## Example Dag: Using Selenium to download a podcast each weekday and email it to an end user.
+## Example Dag: Using Selenium to download a podcast each weekday and upload it to S3.
 
 ### Objective:
 
-The Dag is designed to download a daily podcast from the BBC called wake up to money and email it to the end user.  
-
-A local example of the selenium script can be found in the selenium_on_docker.ipynb file.
+The Dag is designed to download a daily podcast from the BBC called wake up to money and upload it to S3.  
 
 ## Author:
 
