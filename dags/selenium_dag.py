@@ -38,6 +38,7 @@ def remove_file(file_name, local_path):
 
 
 date = '{{ next_ds_nodash }}'
+date = '{{ ds_nodash }}'
 file_name = 'episode_{}.mp3'.format(date)
 bucket_name = 'wake_up_to_money'
 key = os.path.join(bucket_name, file_name)
