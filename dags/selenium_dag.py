@@ -54,7 +54,7 @@ default_args = {
     }
 
 dag = DAG('selenium_example_dag',
-          schedule_interval='0 7 * * 1–5',
+          schedule_interval='0 7 * * MON-FRI',
           default_args=default_args)
 
 start = DummyOperator(
