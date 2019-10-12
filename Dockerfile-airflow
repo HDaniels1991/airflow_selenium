@@ -10,7 +10,8 @@ USER root
 RUN pip install docker && \
     pip install selenium && \
     pip install bs4 && \
-    pip install lxml
+    pip install lxml && \
+    pip install boto3
 
 RUN groupadd --gid 999 docker \
    && usermod -aG docker airflow 

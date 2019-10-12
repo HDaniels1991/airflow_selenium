@@ -11,22 +11,35 @@ def download_podcast(driver, url, download_dir, date):
     download_link = lq_li.find('a')['href']
     download_link = 'http:' + download_link
     driver.get(download_link)
-    # check for downloads
-    print('Testing for file')
-    time0 = time.time()
-    while True:
-        files = os.listdir(download_dir)
-        if files:
-            file = files[0]
-            if date in file:
-                print('File downloading to {}'.format(
-                    os.path.join(download_dir, file)
-                ))
-                time.sleep(30)
+    print('download started')
+    # wait for download to start
+    time.sleep(5)
+    # check for downloads:
+    files = os.listdir(download_dir)
+    # if the file is downloaded the date will be in the file name
+    file = [x for x in files if date in x][0]
+    if file:
+        print('file: ', file, 'found')
+        file_path = os.path.join(download_dir, file)
+        # poll download to completion using filesize.
+        t0 = time.time()  # start time
+        s0 = 0  # file size
+        while True:
+            s1 = os.stat(file_path).st_size
+            if s1 > s0:
+                print('file still downloading, sleeping for 10 seconds')
+                s0 = s1
+                time.sleep(10)
+                t1 = time.time()
+            if s1 == s0:
+                print('download complete')
+                time.sleep(5)  # giving the script additional time.
                 break
-            else:
-                print('file not found, sleeping for 5 seconds')
-                time.sleep(5)
-        elif time.time() - time0 > 60:
-            print('download timed out.')
-            break
+            if t1 - t0 > 300:
+                print('max download time exceeded')
+                break
+        # change file name:
+        os.rename(file_path, os.path.join(
+            download_dir, 'episode_{}.mp3'.format(date)))
+    else:
+        print('download failed')
