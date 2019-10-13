@@ -3,6 +3,7 @@ from airflow.models import DAG
 from airflow.operators.selenium_plugin import SeleniumOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators.python_operator import PythonOperator
+from airflow.operators.python_operator import BranchPythonOperator
 import airflow.hooks.S3_hook
 from selenium_scripts.wake_up_to_money import download_podcast
 from datetime import datetime, timedelta
@@ -37,7 +38,16 @@ def remove_file(file_name, local_path):
         logging.info('removed {}'.format(file_path))
 
 
-date = '{{ next_ds_nodash }}'
+def weekday_branch():
+    '''
+    Returns task_id based on day of week.
+    '''
+    if datetime.today().weekday() in range(0, 5):
+        return 'get_podcast'
+    else:
+        return 'end'
+
+
 date = '{{ ds_nodash }}'
 file_name = 'episode_{}.mp3'.format(date)
 bucket_name = 'wake_up_to_money'
@@ -55,11 +65,16 @@ default_args = {
     }
 
 dag = DAG('selenium_example_dag',
-          schedule_interval='0 7 * * MON-FRI',
+          schedule_interval='@daily',
           default_args=default_args)
 
 start = DummyOperator(
     task_id='start',
+    dag=dag)
+
+weekday_branch = BranchPythonOperator(
+    python_callable=weekday_branch,
+    task_id='weekday_branch',
     dag=dag)
 
 get_podcast = SeleniumOperator(
@@ -89,7 +104,9 @@ end = DummyOperator(
     task_id='end',
     dag=dag)
 
-start >> get_podcast
+start >> weekday_branch
+weekday_branch >> get_podcast
 get_podcast >> upload_podcast_to_s3
 upload_podcast_to_s3 >> remove_local_podcast
 remove_local_podcast >> end
+weekday_branch >> end
